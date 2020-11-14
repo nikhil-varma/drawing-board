@@ -1,8 +1,7 @@
 {
-    "arrowParens": "always",
-    "semi": true,
-    "tabWidth": 2,
-    "bracketSpacing": false,
-    "singleQuote": true,
-    "htmlWhitespaceSensitivity": "css"
-  }
+  "semi": true,
+  "bracketSpacing": false,
+  "singleQuote": true,
+  "htmlWhitespaceSensitivity": "css",
+  "printWidth": 100
+}
