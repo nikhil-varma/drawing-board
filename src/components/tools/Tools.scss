@@ -42,30 +42,3 @@ $toolbar-width: 55px;
     }
   }
 }
-
-.strokes {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 200px;
-  .stroke {
-    width: 50px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    color: #7d7d7d;
-    cursor: pointer;
-    &:hover {
-      color: #000;
-    }
-    svg {
-      -webkit-transition: all 200ms ease-out;
-      -moz-transition: all 200ms ease-out;
-      -o-transition: all 200ms ease-out;
-      transition: all 200ms ease-out;
-    }
-    &:hover > svg {
-      transform: scale(1.8);
-    }
-  }
-}

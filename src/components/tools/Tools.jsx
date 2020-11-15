@@ -1,100 +1,70 @@
 import React, {Component} from 'react';
 import './Tools.scss';
-import {Popover} from 'antd';
-import {FaCircle} from 'react-icons/fa';
 import 'antd/dist/antd.css';
+import {Marker, Selector} from '../BaseToolHolder/BaseToolHolder';
+import Strokes from '../strokes/Strokes';
 
 export default class Tools extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedTool: '',
+      size: 10,
     };
   }
 
-  setTool = (selectedTool) => {
-    const {handleToolSelection} = this.props;
-    this.setState({selectedTool});
-    handleToolSelection({selectedTool});
+  setTool = (selectedTool, config) => {
+    const {setStrokeStyle} = this.props;
+    const {width} = config;
+    setStrokeStyle && setStrokeStyle(config);
+    this.setState({size: width, selectedTool});
   };
 
-  getToolTemplate = ({id, icon}) => {
-    const {selectedTool} = this.state;
-    return (
-      <div
-        id={id}
-        key={id}
-        className={`tool ${selectedTool === id ? 'active' : ''}`}
-        onClick={() => this.setTool(id)}
-      >
-        {icon}
-      </div>
-    );
+  updateStrokeSize = (size) => {
+    const {setStrokeSize} = this.props;
+    this.setState({size}, setStrokeSize && setStrokeSize({width: size}));
   };
 
-  getOptions = ({colors, strokes}) => {
-    const Colors = this.getColors(colors);
-    const Strokes = this.getStrokes(strokes);
+  getOptions = (options) => {
     return (
-      <div>
-        <Colors />
-        <Strokes />
-      </div>
-    );
-  };
-
-  getColors = (colors = []) => {
-    return (
-      <div>
-        {colors.map((color) => (
-          <div key={color}>{color}</div>
-        ))}
-      </div>
-    );
-  };
-
-  getStrokes = () => {
-    return (
-      <div className="strokes">
-        <div className="stroke" style={{fontSize: '1px'}}>
-          <FaCircle />
-        </div>
-        <div className="stroke" style={{fontSize: '3px'}}>
-          <FaCircle />
-        </div>
-        <div className="stroke" style={{fontSize: '5px'}}>
-          <FaCircle />
-        </div>
-        <div className="stroke" style={{fontSize: '8px'}}>
-          <FaCircle />
-        </div>
-        <div className="stroke" style={{fontSize: '10px'}}>
-          <FaCircle />
-        </div>
-        <div className="stroke" style={{fontSize: '15px'}}>
-          <FaCircle />
-        </div>
-        <div className="stroke" style={{fontSize: '20px'}}>
-          <FaCircle />
-        </div>
-        <div className="stroke" style={{fontSize: '25px'}}>
-          <FaCircle />
-        </div>
+      <div className="option-list">
+        {options.map((option, i) => {
+          const key = i * 10;
+          return (
+            <div className="option" key={`option-${option}-${key}`}>
+              {option(this.props)}
+            </div>
+          );
+        })}
       </div>
     );
   };
 
   render() {
-    const {tools} = this.props;
+    const {selectedTool, size, setStrokeStyle} = this.state;
     return (
       <div className="toolbar">
-        {tools.map((i) => {
-          return (
-            <Popover content={this.getStrokes()} placement="right" trigger="click" key={i.id}>
-              {this.getToolTemplate(i)}
-            </Popover>
-          );
-        })}
+        <Marker
+          id="pen"
+          selectedTool={selectedTool}
+          setTool={this.setTool}
+          setStrokeStyle={setStrokeStyle}
+          renderOptions={(props) => {
+            return (
+              <div className="options-list">
+                <div className="option">
+                  <Strokes updateStrokeSize={this.updateStrokeSize} size={size} {...props} />
+                </div>
+              </div>
+            );
+          }}
+        />
+        <Selector
+          id="highlighter"
+          selectedTool={selectedTool}
+          setTool={this.setTool}
+          setStrokeStyle={setStrokeStyle}
+        />
       </div>
     );
   }
