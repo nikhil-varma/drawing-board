@@ -1,4 +1,5 @@
 import React, {Component, createRef} from 'react';
+import Tools from '../tools/Tools';
 
 export default class Whiteboard extends Component {
   constructor(props) {
@@ -9,16 +10,15 @@ export default class Whiteboard extends Component {
 
   componentDidMount() {
     const {lineCap, lineJoin, strokeStyle, lineWidth} = this.props;
-
     this.setBoardSize();
     const canvas = this.canvasRef.current;
-    const context = canvas.getContext('2d');
-    context.scale(2, 2);
-    context.lineCap = lineCap;
-    context.lineJoin = lineJoin;
-    context.strokeStyle = strokeStyle;
-    context.lineWidth = lineWidth;
-    this.canvasRef.current = context;
+    this.context = canvas.getContext('2d');
+    this.context.scale(2, 2);
+    this.context.lineCap = lineCap;
+    this.context.lineJoin = lineJoin;
+    this.context.strokeStyle = strokeStyle;
+    this.context.lineWidth = lineWidth;
+    this.canvasRef.current = this.context;
   }
 
   setBoardSize = () => {
@@ -51,14 +51,32 @@ export default class Whiteboard extends Component {
     this.enableDrawing = false;
   };
 
+  setStrokeStyle = (config) => {
+    const {color, width} = config;
+    if (color) {
+      this.context.strokeStyle = color;
+      this.canvasRef.current = this.context;
+    }
+    if (width) this.setStrokeSize(width);
+  };
+
+  setStrokeSize = (config) => {
+    const {width} = config;
+    this.context.lineWidth = width;
+    this.canvasRef.current = this.context;
+  };
+
   render() {
     return (
-      <canvas
-        ref={this.canvasRef}
-        onMouseDown={this.handleMouseDown}
-        onMouseMove={this.handleMouseMove}
-        onMouseUp={this.handleMouseUp}
-      />
+      <>
+        <Tools setStrokeStyle={this.setStrokeStyle} setStrokeSize={this.setStrokeSize} />
+        <canvas
+          ref={this.canvasRef}
+          onMouseDown={this.handleMouseDown}
+          onMouseMove={this.handleMouseMove}
+          onMouseUp={this.handleMouseUp}
+        />
+      </>
     );
   }
 }
