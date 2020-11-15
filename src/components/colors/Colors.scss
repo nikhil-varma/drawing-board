@@ -1,34 +1,32 @@
-.stroke-set {
+.color-set {
   width: 30px;
-  height: 25px;
   line-height: 30px;
   text-align: center;
   cursor: pointer;
   font-size: 20px;
 }
-.strokes {
+.colors {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 200px;
-  .stroke {
-    width: 50px;
+  .color {
+    font-size: 28px;
     height: 40px;
-    line-height: 40px;
+    width: 40px;
     text-align: center;
-    color: #7d7d7d;
+    line-height: 44px;
     cursor: pointer;
     &:hover {
       color: #000;
     }
     svg {
-      -webkit-transition: all 200ms ease-out;
-      -moz-transition: all 200ms ease-out;
-      -o-transition: all 200ms ease-out;
-      transition: all 200ms ease-out;
+      -webkit-transition: all 100ms ease-out;
+      -moz-transition: all 100ms ease-out;
+      -o-transition: all 100ms ease-out;
+      transition: all 100ms ease-out;
     }
     &:hover > svg {
-      transform: scale(1.8);
+      transform: scale(1.4);
     }
   }
 }
