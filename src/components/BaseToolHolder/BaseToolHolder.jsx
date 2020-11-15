@@ -36,13 +36,13 @@ export const Highlighter = (props) => {
 */
 
 const Pen = (props) => {
-  const {renderOptions, selectedTool, id, setTool, color} = props;
+  const {renderOptions, selectedTool, id, setTool, size, color} = props;
   return (
     <Popover content={renderOptions(props)} placement="right" trigger="click">
       <div
         id={id}
         className={`tool ${selectedTool === id ? 'active' : ''}`}
-        onClick={() => setTool(id, {color: color || 'black'})}
+        onClick={() => setTool(id, {color: color !== 'white' ? color : 'black', width: size || 10})}
       >
         <FaPen />
       </div>
@@ -52,7 +52,6 @@ const Pen = (props) => {
 
 export const Highlighter = (props) => {
   const {renderOptions, selectedTool, id, setTool} = props;
-
   return renderOptions ? (
     <Popover content={renderOptions(props)} placement="right" trigger="click">
       <div

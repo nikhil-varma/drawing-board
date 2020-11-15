@@ -24,12 +24,14 @@ export default class Tools extends Component {
 
   updateStrokeSize = (size) => {
     const {setStrokeSize} = this.props;
-    this.setState({size}, setStrokeSize && setStrokeSize({width: size}));
+    this.setState({size});
+    setStrokeSize && setStrokeSize({width: size});
   };
 
   updateStrokeColor = (color) => {
     const {setStrokeColor} = this.props;
-    this.setState({color}, setStrokeColor && setStrokeColor({color}));
+    this.setState({color});
+    setStrokeColor && setStrokeColor({color});
   };
 
   getOptions = (options) => {
@@ -56,14 +58,21 @@ export default class Tools extends Component {
           selectedTool={selectedTool}
           setTool={this.setTool}
           setStrokeStyle={setStrokeStyle}
+          size={size}
+          color={color}
           renderOptions={(props) => {
             return (
               <div className="options-list">
                 <div className="option">
-                  <Strokes updateStrokeSize={this.updateStrokeSize} size={size} {...props} />
+                  <Strokes
+                    {...props}
+                    updateStrokeSize={this.updateStrokeSize}
+                    size={size}
+                    color={color}
+                  />
                 </div>
                 <div className="option">
-                  <Colors updateStrokeColor={this.updateStrokeColor} color={color} {...props} />
+                  <Colors {...props} updateStrokeColor={this.updateStrokeColor} color={color} />
                 </div>
               </div>
             );
