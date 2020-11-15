@@ -53,11 +53,8 @@ export default class Whiteboard extends Component {
 
   setStrokeStyle = (config) => {
     const {color, width} = config;
-    if (color) {
-      this.context.strokeStyle = color;
-      this.canvasRef.current = this.context;
-    }
-    if (width) this.setStrokeSize(width);
+    if (color) this.setStrokeColor(config);
+    if (width) this.setStrokeSize(config);
   };
 
   setStrokeSize = (config) => {
@@ -66,10 +63,20 @@ export default class Whiteboard extends Component {
     this.canvasRef.current = this.context;
   };
 
+  setStrokeColor = (config) => {
+    const {color} = config;
+    this.context.strokeStyle = color;
+    this.canvasRef.current = this.context;
+  };
+
   render() {
     return (
       <>
-        <Tools setStrokeStyle={this.setStrokeStyle} setStrokeSize={this.setStrokeSize} />
+        <Tools
+          setStrokeStyle={this.setStrokeStyle}
+          setStrokeColor={this.setStrokeColor}
+          setStrokeSize={this.setStrokeSize}
+        />
         <canvas
           ref={this.canvasRef}
           onMouseDown={this.handleMouseDown}

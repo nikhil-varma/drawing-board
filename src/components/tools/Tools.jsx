@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import './Tools.scss';
 import 'antd/dist/antd.css';
-import {Marker, Selector} from '../BaseToolHolder/BaseToolHolder';
+import {Erasor, Marker, Selector} from '../BaseToolHolder/BaseToolHolder';
 import Strokes from '../strokes/Strokes';
+import Colors from '../colors/Colors';
 
 export default class Tools extends Component {
   constructor(props) {
@@ -10,19 +11,25 @@ export default class Tools extends Component {
     this.state = {
       selectedTool: '',
       size: 10,
+      color: 'black',
     };
   }
 
   setTool = (selectedTool, config) => {
     const {setStrokeStyle} = this.props;
-    const {width} = config;
+    const {width, color} = config;
     setStrokeStyle && setStrokeStyle(config);
-    this.setState({size: width, selectedTool});
+    this.setState({size: width, selectedTool, color});
   };
 
   updateStrokeSize = (size) => {
     const {setStrokeSize} = this.props;
     this.setState({size}, setStrokeSize && setStrokeSize({width: size}));
+  };
+
+  updateStrokeColor = (color) => {
+    const {setStrokeColor} = this.props;
+    this.setState({color}, setStrokeColor && setStrokeColor({color}));
   };
 
   getOptions = (options) => {
@@ -41,7 +48,7 @@ export default class Tools extends Component {
   };
 
   render() {
-    const {selectedTool, size, setStrokeStyle} = this.state;
+    const {selectedTool, size, setStrokeStyle, color} = this.state;
     return (
       <div className="toolbar">
         <Marker
@@ -55,12 +62,21 @@ export default class Tools extends Component {
                 <div className="option">
                   <Strokes updateStrokeSize={this.updateStrokeSize} size={size} {...props} />
                 </div>
+                <div className="option">
+                  <Colors updateStrokeColor={this.updateStrokeColor} color={color} {...props} />
+                </div>
               </div>
             );
           }}
         />
         <Selector
           id="highlighter"
+          selectedTool={selectedTool}
+          setTool={this.setTool}
+          setStrokeStyle={setStrokeStyle}
+        />
+        <Erasor
+          id="erasor"
           selectedTool={selectedTool}
           setTool={this.setTool}
           setStrokeStyle={setStrokeStyle}

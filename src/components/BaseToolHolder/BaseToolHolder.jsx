@@ -1,6 +1,6 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import {Popover} from 'antd';
-import {FaHighlighter, FaPen} from 'react-icons/fa';
+import {FaEraser, FaHighlighter, FaPen} from 'react-icons/fa';
 import './BaseToolHolder.scss';
 
 /*
@@ -35,27 +35,35 @@ export const Highlighter = (props) => {
 };
 */
 
-class Pen extends PureComponent {
-  render() {
-    const {renderOptions, selectedTool, id, setTool} = this.props;
-    return (
-      <Popover content={renderOptions(this.props)} placement="right" trigger="click">
-        <div
-          id={id}
-          className={`tool ${selectedTool === id ? 'active' : ''}`}
-          onClick={() => setTool(id, {color: 'black'})}
-        >
-          <FaPen />
-        </div>
-      </Popover>
-    );
-  }
-}
+const Pen = (props) => {
+  const {renderOptions, selectedTool, id, setTool, color} = props;
+  return (
+    <Popover content={renderOptions(props)} placement="right" trigger="click">
+      <div
+        id={id}
+        className={`tool ${selectedTool === id ? 'active' : ''}`}
+        onClick={() => setTool(id, {color: color || 'black'})}
+      >
+        <FaPen />
+      </div>
+    </Popover>
+  );
+};
 
 export const Highlighter = (props) => {
-  const {selectedTool, id, setTool} = props;
+  const {renderOptions, selectedTool, id, setTool} = props;
 
-  return (
+  return renderOptions ? (
+    <Popover content={renderOptions(props)} placement="right" trigger="click">
+      <div
+        id={id}
+        className={`tool ${selectedTool === id ? 'active' : ''}`}
+        onClick={() => setTool(id, {color: 'rgb(226,205,30, 0.7%)', width: 15})}
+      >
+        <FaHighlighter />
+      </div>
+    </Popover>
+  ) : (
     <div
       id={id}
       className={`tool ${selectedTool === id ? 'active' : ''}`}
@@ -65,5 +73,20 @@ export const Highlighter = (props) => {
     </div>
   );
 };
+
+export const WhiteMarker = (props) => {
+  const {selectedTool, id, setTool} = props;
+
+  return (
+    <div
+      id={id}
+      className={`tool ${selectedTool === id ? 'active' : ''}`}
+      onClick={() => setTool(id, {color: 'white', width: 15})}
+    >
+      <FaEraser />
+    </div>
+  );
+};
 export {Pen as Marker};
 export {Highlighter as Selector};
+export {WhiteMarker as Erasor};
