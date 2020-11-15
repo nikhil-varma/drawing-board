@@ -1,0 +1,21 @@
+.ant-popover-inner-content {
+  padding: 0 !important;
+}
+.ant-popover-placement-right > .ant-popover-content > .ant-popover-arrow {
+  display: none;
+}
+.option-list {
+  .option {
+    padding: 10px;
+    border: 1px solid #dcdcdc;
+    border-bottom: 0;
+    text-align: center;
+    cursor: pointer;
+    &:last-of-type {
+      border-bottom: 1px solid #dcdcdc;
+    }
+    &:hover {
+      background-color: #f7f7f7;
+    }
+  }
+}
