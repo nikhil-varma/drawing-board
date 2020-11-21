@@ -9,7 +9,7 @@ export default class Tools extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTool: '',
+      selectedTool: 'pen',
       size: 10,
       color: 'black',
     };
